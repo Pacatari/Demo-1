@@ -4,9 +4,9 @@ public class PlayerController : MonoBehaviour
 {
     // Constantes
     private const float RunSpeed = 4f; // Velocidad de movimiento lateral
-    private const float MinJumpForce = 5f; // Fuerza mínima de salto
-    private const float MaxJumpForce = 20f; // Fuerza máxima de salto
-    private const float JumpChargeRate = 0.5f; // Tasa de carga del salto
+    public const float MinJumpForce = 5f; // Fuerza mínima de salto
+    public const float MaxJumpForce = 20f; // Fuerza máxima de salto
+    public const float JumpChargeRate = 0.5f; // Tasa de carga del salto
     private const float GravityMultiplier = 2f; // Multiplicador de gravedad para caídas rápidas
     private const float TerminalVelocity = -30f; // Velocidad terminal máxima
 
