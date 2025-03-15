@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 3f;         // Velocidad de movimiento horizontal
     public float maxJumpForce = 3f;     // Fuerza máxima de salto
     public float jumpChargeRate = 0.5f;   // Velocidad de carga del salto
+    private float lastMoveDirection = 0f;  // Almacena la última dirección de movimiento
+
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -18,22 +20,33 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+   void Update()
     {
-        // Movimiento horizontal
         float move = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(move * moveSpeed, rb.velocity.y);
-        
-        if (move > 0)
+
+        // Si el personaje está en el suelo, permite moverse y actualizar la dirección
+        if (isGrounded)
         {
-            transform.localScale = new Vector3(1,1,1);
-        }
-        else if (move < 0)
-        {
-            transform.localScale = new Vector3(-1,1,1);
+            rb.velocity = new Vector2(move * moveSpeed, rb.velocity.y);
+
+            // Guardar la última dirección válida si hay movimiento
+            if (move != 0)
+            {
+                lastMoveDirection = move > 0 ? 1 : -1;
+            }
+
+            // Girar al moverse
+            if (move > 0)
+            {
+                transform.localScale = new Vector3(1f,1f,1f);
+            }
+            else if (move < 0)
+            {
+                transform.localScale = new Vector3(1f,1f,1f);
+            }
         }
 
-        // Iniciar carga de salto
+        // Iniciar carga de salto solo si está en el suelo
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             isChargingJump = true;
@@ -50,11 +63,13 @@ public class PlayerController : MonoBehaviour
         // Liberar el salto
         if (Input.GetKeyUp(KeyCode.Space) && isChargingJump)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpCharge);
-
+            // Mantiene la última dirección marcada antes de saltar
+            rb.velocity = new Vector2(lastMoveDirection * moveSpeed, jumpCharge);
             isChargingJump = false;
+            isGrounded = false;  // El personaje ya no está en el suelo
         }
     }
+   
 
     void OnCollisionEnter2D(Collision2D collision)
     {
