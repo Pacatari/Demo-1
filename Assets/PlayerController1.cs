@@ -8,7 +8,8 @@ public class PlayerController : MonoBehaviour
     public float maxJumpForce = 3f;     // Fuerza máxima de salto
     public float jumpChargeRate = 0.5f;   // Velocidad de carga del salto
     private float lastMoveDirection = 0f;  // Almacena la última dirección de movimiento
-
+    public float Dash = 8f;
+    private bool SaltoCorto = false ;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -68,14 +69,24 @@ public class PlayerController : MonoBehaviour
             isChargingJump = false;
             isGrounded = false;  // El personaje ya no está en el suelo
         }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (SaltoCorto == false)
+            {
+            rb.velocity = new Vector2(rb.velocity.x, Dash); // Aplica la fuerza máxima de salto
+            SaltoCorto = true;
+            }
+        }
+
     }
-   
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            SaltoCorto = false;
         }
     }
 
