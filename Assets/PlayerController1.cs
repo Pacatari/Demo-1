@@ -39,11 +39,11 @@ public class PlayerController : MonoBehaviour
             // Girar al moverse
             if (move > 0)
             {
-                transform.localScale = new Vector3(1f,1f,1f);
+                transform.localScale = new Vector3(10.09877f,10.09877f,10.09877f);
             }
             else if (move < 0)
             {
-                transform.localScale = new Vector3(1f,1f,1f);
+                transform.localScale = new Vector3(-10.09877f,10.09877f,10.09877f);
             }
         }
 
@@ -88,6 +88,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = true;
             SaltoCorto = false;
         }
+
     }
 
     void OnCollisionExit2D(Collision2D collision)
